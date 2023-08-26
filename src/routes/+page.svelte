@@ -1,19 +1,18 @@
 <script lang="ts">
+  import Game from '../lib/components/game.svelte';
+  import Loading from '../lib/components/loading.svelte';
+  import { ready } from '../lib/store';
 </script>
 
 <svelte:head>
-	<title>Home</title>
-	<!-- <meta name="description" content="Svelte demo app" /> -->
+  <title>Kota's Chord Drill</title>
+  <meta name="description" content="MIDI Chord Drill" />
 </svelte:head>
 
 <section>
-	<h2>
-		wassup
-	</h2>
+  {#if $ready}
+    <Game />
+  {:else}
+    <Loading />
+  {/if}
 </section>
-
-<style lang="scss">
-  h2 {
-    margin: 0;
-  }
-</style>
