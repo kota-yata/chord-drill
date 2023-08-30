@@ -3,4 +3,7 @@ export class MIDI {
   constructor(midiAccess: MIDIAccess) {
     this.midi = midiAccess;
   }
+  public listInputs() {
+    return this.midi.inputs;
+  }
 }

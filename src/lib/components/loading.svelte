@@ -1,25 +1,13 @@
 <script lang="ts">
+  import { MIDI } from '$lib/midi';
   import { onMount } from 'svelte';
 
-  const checkMIDIAvailability = async () => {
-    const midiPermission = await navigator.permissions.query({ name: 'midi' });
-    if (midiPermission.state === 'granted') {
-      console.log('granted');
-    } else if (midiPermission.state === 'prompt') {
-      console.log('prompt');
-    } else {
-      console.log('denied');
-    }
-  };
-
-  const requestMIDI = async () => {
-    const midiAccess = await navigator.requestMIDIAccess();
-    console.log(midiAccess);
-  };
-
   onMount(async () => {
-    await checkMIDIAvailability();
-    await requestMIDI();
+    const isMidiAvailable = await navigator.permissions.query({ name: 'midi' }).catch(() => false);
+    if (!isMidiAvailable) return;
+    const midiAccess = await navigator.requestMIDIAccess();
+    const myMidi = new MIDI(midiAccess);
+    console.log(myMidi.listInputs());
   });
 </script>
 

@@ -50,6 +50,9 @@
       justify-content: space-between;
       align-items: center;
       padding: 20px;
+      a {
+        text-decoration: none;
+      }
     }
   }
 </style>
