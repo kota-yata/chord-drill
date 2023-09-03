@@ -23,7 +23,7 @@ export class ObjectListStore<StoreType> {
 };
 
 export class LogListStore extends ObjectListStore<Log> {
-  public pushWithCurrentTimeStamp(log: string): void {
+  public pushWithCurrentTimestamp(log: string): void {
     const logObject: Log = {
       log,
       timeStamp: getTimestamp()

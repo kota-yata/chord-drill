@@ -5,7 +5,11 @@ export class MIDI {
     this.midi = midiAccess;
   }
   public listInputs() {
-    return this.midi.inputs;
+    let result: MIDIInput[] = [];
+    this.midi.inputs.forEach((input) => {
+      result.push(input);
+    });
+    return result;
   }
   public setTargetInput(input: MIDIInput) {
     this.targetInput = input;
