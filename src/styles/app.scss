@@ -27,3 +27,20 @@ h4 {
   font-size: 18px;
   margin: 0;
 }
+
+button {
+  border: none;
+  background: none;
+  outline: none;
+  font-size: inherit;
+  font-family: inherit;
+  color: inherit;
+  cursor: pointer;
+}
+
+.clickable {
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+}
