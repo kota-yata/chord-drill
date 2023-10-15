@@ -1,6 +1,6 @@
 import { LogListStore, logStore } from "./store";
 
-export class MIDI {
+export class ChordDrill {
   private midi: MIDIAccess;
   private targetInput: MIDIInput | undefined;
   private logListStore: LogListStore;
@@ -23,9 +23,12 @@ export class MIDI {
     return result;
   }
   public getStatus(statusNum: number): 'NOTEON' | 'NOTEOFF' | 'OTHERS' {
-    if (MIDI.STATUS_NOTEOFF_MIN <= statusNum && statusNum <= MIDI.STATUS_NOTEOFF_MAX) return 'NOTEOFF';
-    if (MIDI.STATUS_NOTEON_MIN <= statusNum && statusNum <= MIDI.STATUS_NOTEON_MAX) return 'NOTEON';
+    if (ChordDrill.STATUS_NOTEOFF_MIN <= statusNum && statusNum <= ChordDrill.STATUS_NOTEOFF_MAX) return 'NOTEOFF';
+    if (ChordDrill.STATUS_NOTEON_MIN <= statusNum && statusNum <= ChordDrill.STATUS_NOTEON_MAX) return 'NOTEON';
     return 'OTHERS';
+  }
+  public findPossibleRoots(noteNums: number[]) {
+
   }
   public getChord() {
     let noteNums = [];

@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { MIDI } from '$lib/midi';
+  import { ChordDrill } from '$lib/core';
   import { LogListStore, logStore } from '$lib/store';
   import { onMount } from 'svelte';
 
   const logListStore = new LogListStore(logStore);
-  let myMidi: MIDI;
+  let cd: ChordDrill;
   let midiInputs: MIDIInput[] = [];
   let showPreparation = true;
 
@@ -17,25 +17,24 @@
     }
     logListStore.pushWithCurrentTimestamp('Web MIDI API is available on this device');
     const midiAccess = await navigator.requestMIDIAccess();
-    myMidi = new MIDI(midiAccess);
-    midiInputs = myMidi.listInputs();
+    cd = new ChordDrill(midiAccess);
+    midiInputs = cd.listInputs();
   });
 
   const onMidiMessage = (event: Event) => {
     const data: Uint8Array = event.data; // [Status Bytes, Target Note, Volume]
-    const status = myMidi.getStatus(data[0]);
+    const status = cd.getStatus(data[0]);
     if (status === 'NOTEOFF') {
-      myMidi.removeNote(data[1]);
+      cd.removeNote(data[1]);
     }
     if (status === 'NOTEON') {
-      myMidi.registerNote(data[1]);
-      myMidi.g
+      cd.registerNote(data[1]);
     }
   }
 
   const onSelectInput = (input: MIDIInput) => {
     showPreparation = false;
-    myMidi.registerTargetInput(input, onMidiMessage);
+    cd.registerTargetInput(input, onMidiMessage);
   };
 </script>
 
