@@ -1,4 +1,6 @@
 import { LogListStore, logStore } from "./store";
+import { noteName } from "./constants";
+import { detect } from "@tonaljs/chord-detect";
 
 export class ChordDrill {
   private midi: MIDIAccess;
@@ -31,8 +33,11 @@ export class ChordDrill {
 
   }
   public getChord() {
-    let noteNums = [];
-    this.registered.map(x => noteNums.push(x % 12)); // Suppose 0 is C and increments up to 12 = B
+    let notes: string[] = [];
+    this.registered.sort((a, b) => a - b);
+    this.registered.map(x => notes.push(noteName[x % 12])); // Suppose 0 is C and increments up to 11 = B
+    const chord = detect(notes);
+    return chord;
   }
   public registerTargetInput(input: MIDIInput, func: (ev: Event) => void) {
     this.targetInput = input;
@@ -44,11 +49,9 @@ export class ChordDrill {
   public registerNote(note: number): void {
     if (this.registered.includes(note)) return;
     this.registered.push(note);
-    this.logListStore.pushWithCurrentTimestamp(`Note ${note} has been registered`);
   }
   public removeNote(note: number): void {
     if (!this.registered.includes(note)) return;
-    this.registered.filter(x => x != note);
-    this.logListStore.pushWithCurrentTimestamp(`Note ${note} has been removed`);
+    this.registered = this.registered.filter(x => x !== note);
   }
 }

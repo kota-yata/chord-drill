@@ -7,6 +7,7 @@
   let cd: ChordDrill;
   let midiInputs: MIDIInput[] = [];
   let showPreparation = true;
+  let chords: string[] = [];
 
   onMount(async () => {
     logListStore.pushWithCurrentTimestamp('Checking Web MIDI API availability...');
@@ -30,6 +31,7 @@
     if (status === 'NOTEON') {
       cd.registerNote(data[1]);
     }
+    chords = cd.getChord();
   }
 
   const onSelectInput = (input: MIDIInput) => {
@@ -68,6 +70,11 @@
     {/if}
   </div>
   {/if}
+  <div class="chord">
+    {#each chords as c}
+    <div>{c}</div>
+    {/each}
+  </div>
 </div>
 
 <style lang="scss">
