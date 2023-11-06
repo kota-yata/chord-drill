@@ -1,6 +1,6 @@
 import { LogListStore, logStore } from "./store";
-import { noteName } from "./constants";
-import { detect } from "@tonaljs/chord-detect";
+import { rootName, symbols } from "./constants";
+import { Chord, ChordType } from "tonal";
 
 export class ChordDrill {
   private midi: MIDIAccess;
@@ -29,15 +29,18 @@ export class ChordDrill {
     if (ChordDrill.STATUS_NOTEON_MIN <= statusNum && statusNum <= ChordDrill.STATUS_NOTEON_MAX) return 'NOTEON';
     return 'OTHERS';
   }
-  public findPossibleRoots(noteNums: number[]) {
-
-  }
   public getChord() {
     let notes: string[] = [];
     this.registered.sort((a, b) => a - b);
-    this.registered.map(x => notes.push(noteName[x % 12])); // Suppose 0 is C and increments up to 11 = B
-    const chord = detect(notes);
+    this.registered.map(x => notes.push(rootName[x % 12])); // Suppose 0 is C and increments up to 11 = B
+    const chord = Chord.detect(notes);
+    // console.log(ChordType.symbols());
     return chord;
+  }
+  public propose() {
+    const rndRoot = Math.floor(Math.random() * 13);
+    const rndSymbol = Math.floor(Math.random() * 107);
+    return `${rootName[rndRoot]}${symbols[rndSymbol]}`;
   }
   public registerTargetInput(input: MIDIInput, func: (ev: Event) => void) {
     this.targetInput = input;

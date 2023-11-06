@@ -32,6 +32,6 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@tonaljs/chord-detect": "^4.8.2"
+		"tonal": "^5.0.0"
 	}
 }

@@ -8,6 +8,7 @@
   let midiInputs: MIDIInput[] = [];
   let showPreparation = true;
   let chords: string[] = [];
+  let proposed: string = '';
 
   onMount(async () => {
     logListStore.pushWithCurrentTimestamp('Checking Web MIDI API availability...');
@@ -37,6 +38,7 @@
   const onSelectInput = (input: MIDIInput) => {
     showPreparation = false;
     cd.registerTargetInput(input, onMidiMessage);
+    proposed = cd.propose();
   };
 </script>
 
@@ -69,12 +71,16 @@
       {/each}
     {/if}
   </div>
-  {/if}
+  {:else}
+  <div class="proposed">
+    <div>{proposed}</div>
+  </div>
   <div class="chord">
     {#each chords as c}
     <div>{c}</div>
     {/each}
   </div>
+  {/if}
 </div>
 
 <style lang="scss">
